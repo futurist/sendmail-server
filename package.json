@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/futurist/sendmail-server#readme",
   "dependencies": {
-    "nodemailer": "^4.4.2"
+    "nodemailer": "^4.4.2",
+    "objutil": "^2.17.2",
+    "qs": "^6.5.1"
   }
 }

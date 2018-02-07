@@ -1,5 +1,7 @@
 'use strict'
 const nodemailer = require('nodemailer')
+const qs = require('qs')
+const objutil = require('objutil')
 const http = require('http')
 const url = require('url')
 
@@ -14,17 +16,32 @@ const mailConfig = {
     pass: PASS || '' // generated ethereal password
   }
 }
-const mailSender = createMailSender(mailConfig)
+
+let mailSender = createMailSender(mailConfig)
 let sendCounter = 0
 
 http.createServer((req, res) => {
   const response = (obj, code) => {
-    res.writeHead(code == null ? 200 : code)
+    res.statusCode = code == null ? 200 : code
+
+    // Set CORS headers
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Credentials', 'true')
+    res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,PATCH')
+    // res.setHeader('Access-Control-Allow-Headers', Object.keys(req.headers)+'')
+
     res.end(JSON.stringify(obj), 'utf8')
   }
 
-  const {pathname, query} = url.parse(req.url, true)
+  let {pathname, query} = url.parse(req.url)
+  query = qs.parse(query)
+
   // console.log(req.url, req.method, req.query, urlObj)
+  if (pathname == '/config') {
+    objutil.merge(mailConfig, query)
+    mailSender = createMailSender(mailConfig)
+    console.log('config updated:', mailConfig)
+  }
   if (pathname == '/sendmail') {
     let counter = ++sendCounter
     console.log(`start sending mail ${counter}:`, query.to)
