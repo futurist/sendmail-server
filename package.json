@@ -1,0 +1,23 @@
+{
+  "name": "sendmail-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/futurist/sendmail-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/futurist/sendmail-server/issues"
+  },
+  "homepage": "https://github.com/futurist/sendmail-server#readme",
+  "dependencies": {
+    "nodemailer": "^4.4.2"
+  }
+}
