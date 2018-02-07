@@ -6,6 +6,7 @@ const http = require('http')
 const url = require('url')
 
 const [,, PASS, USER] = process.argv
+const PORT = 9191
 
 const mailConfig = {
   host: 'smtp.126.com',
@@ -54,7 +55,7 @@ http.createServer((req, res) => {
   }
 
   response({})
-}).listen(9191)
+}).listen(PORT, (err, server)=>console.log(err || 'mail server start @', PORT))
 
 function createMailSender (config) {
   // create reusable transporter object using the default SMTP transport
