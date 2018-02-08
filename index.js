@@ -7,13 +7,13 @@ const url = require('url')
 
 const [,, PASS, USER] = process.argv
 const PORT = 9191
-
+const SENDER = 'noambitions@126.com'
 const mailConfig = {
   host: 'smtp.126.com',
   port: 25,
   secure: false, // true for 465, false for other ports
   auth: {
-    user: USER || 'noambitions@126.com', // generated ethereal user
+    user: USER || SENDER, // generated ethereal user
     pass: PASS || '' // generated ethereal password
   }
 }
@@ -43,8 +43,9 @@ http.createServer((req, res) => {
     mailSender = createMailSender(mailConfig)
     console.log('config updated:', mailConfig)
   }
-  if (pathname == '/sendmail') {
+  if (pathname == '/sendmail' && query) {
     let counter = ++sendCounter
+    query.from = query.from || SENDER
     console.log(`start sending mail ${counter}:`, query.to)
     mailSender(query, (err, info) => {
       console.log(err ? `${counter} failed ${JSON.stringify(err)}` : `${counter} ` + info.response)
