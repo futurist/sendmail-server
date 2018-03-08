@@ -37,7 +37,7 @@ http.createServer((req, res) => {
   let {pathname, query} = url.parse(req.url)
   query = qs.parse(query)
 
-  // console.log(req.url, req.method, req.query, urlObj)
+  // console.log(req.url, req.method, query)
   if (pathname == '/config') {
     objutil.merge(mailConfig, query)
     mailSender = createMailSender(mailConfig)
